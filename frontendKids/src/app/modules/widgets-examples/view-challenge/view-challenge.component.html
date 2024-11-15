@@ -1,0 +1,399 @@
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+
+  .card {
+    font-family: "Roboto", sans-serif;
+  }
+
+  .card-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+
+  .card-text {
+    font-size: 1.1rem;
+  }
+
+  .category-badge {
+    font-size: 1rem;
+    padding: 0.5em 1em;
+    border-radius: 25px;
+    background-color: #e0f2ff;
+    color: #0077cc;
+    border: 1px solid #0077cc;
+    transition: all 0.3s ease;
+    display: inline-block;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .category-badge:hover {
+    background-color: #0077cc;
+    color: #ffffff;
+  }
+
+  .enrolled-count {
+    font-size: 1.2rem;
+  }
+  .existing-chapters {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .checkbox-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+
+  .checkbox-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+
+  .checkbox-item:hover {
+    background-color: #e9ecef;
+  }
+
+  .form-check-input {
+    margin-right: 10px;
+  }
+
+  .form-check-label {
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  .card-footer {
+    border-top: 1px solid #dee2e6;
+    margin-top: 20px;
+    padding-top: 20px;
+  }
+</style>
+
+<div class="card mb-5 mb-xl-8 shadow-sm">
+  <div class="row g-0">
+    <!-- begin::Image (smaller and to the left) -->
+    <div class="col-md-4 d-flex align-items-center p-3">
+      <img
+        [src]="backendUrl + '/uploads/images/' + challenge.imageFileName"
+        alt="Challenge Image"
+        class="img-fluid rounded"
+        style="width: 100%; height: 100%; object-fit: cover"
+      />
+    </div>
+    <!-- end::Image -->
+
+    <!-- begin::Body (content taking full available space) -->
+    <div class="col-md-8">
+      <div class="card-body d-flex flex-column h-100">
+        <!-- Challenge Title -->
+        <h5 class="card-title mb-4">{{ challenge.title }}</h5>
+
+        <!-- Challenge Description -->
+        <p class="card-text mb-4">
+          {{ challenge.description }}
+        </p>
+
+        <!-- Challenge Categories -->
+        <div class="d-flex flex-wrap mb-4">
+          <span
+            *ngFor="let category of challenge.categories"
+            class="category-badge"
+          >
+            {{ category.title }}
+          </span>
+        </div>
+
+        <!-- Enrolled Kids Count -->
+        <div class="mt-auto">
+          <span class="enrolled-count">Total Kids Enrolled: 50</span>
+        </div>
+      </div>
+    </div>
+    <!-- end::Body -->
+  </div>
+</div>
+
+<div class="card mb-5 mb-xl-8">
+  <!-- begin::Header -->
+  <div class="card-header border-0 pt-5">
+    <h3 class="card-title align-items-start flex-column">
+      <span class="card-label fw-bolder fs-3 mb-1">Chapters</span>
+      <span class="text-muted mt-1 fw-bold fs-7">Over 500 chapters</span>
+    </h3>
+    <div
+      class="card-toolbar"
+      data-bs-toggle="tooltip"
+      data-bs-placement="top"
+      data-bs-trigger="hover"
+      title="Click to add a user"
+    >
+      <a class="btn btn-sm btn-light-primary" (click)="open(content)">
+        <span
+          [inlineSVG]="'./assets/media/icons/duotune/arrows/arr075.svg'"
+          class="svg-icon svg-icon-3"
+        ></span>
+        New Chapter
+      </a>
+    </div>
+  </div>
+  <!-- end::Header -->
+  <!-- begin::Body -->
+  <div class="card-body py-3">
+    <!-- begin::Table container -->
+    <div class="table-responsive">
+      <!-- begin::Table -->
+      <table
+        #dataTable
+        id="example"
+        class="table table-row-gray-300 align-middle gs-0 gy-4"
+      >
+        <!-- begin::Table head -->
+        <thead>
+          <tr class="fw-bolder text-muted">
+            <th class="w-25px">
+              <div
+                class="form-check form-check-sm form-check-custom form-check-solid"
+              >
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value="1"
+                  data-kt-check="true"
+                  data-kt-check-target=".widget-9-check"
+                />
+              </div>
+            </th>
+            <th class="min-w-150px">Title</th>
+            <th class="min-w-140px">Description</th>
+            <th class="min-w-120px">ChapterNumber</th>
+            <th class="min-w-120px">Lessons</th>
+            <th class="min-w-100px text-end">Actions</th>
+          </tr>
+        </thead>
+        <!-- end::Table head -->
+        <!-- begin::Table body -->
+        <tbody *ngIf="chapters.length > 0">
+          <tr *ngFor="let chapter of chapters">
+            <td>
+              <div
+                class="form-check form-check-sm form-check-custom form-check-solid"
+              >
+                <input
+                  class="form-check-input widget-9-check"
+                  type="checkbox"
+                  value="1"
+                />
+              </div>
+            </td>
+            <td>
+              <div class="d-flex align-items-center">
+                <div class="d-flex justify-content-start flex-column">
+                  <a
+                    href="#"
+                    class="text-gray-900 fw-bolder text-hover-primary fs-6"
+                  >
+                    {{ chapter.title }}
+                  </a>
+                </div>
+              </div>
+            </td>
+            <td>
+              <a
+                href="#"
+                class="text-gray-900 fw-bolder text-hover-primary d-block fs-6"
+              >
+                {{ chapter.description }}
+              </a>
+            </td>
+            <td class="text-end">
+              <div class="d-flex flex-column w-100 me-2">
+                <div class="d-flex flex-stack mb-2">
+                  <span class="text-muted me-2 fs-7 fw-bold">{{
+                    chapter.chapterNumber
+                  }}</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="d-flex flex-wrap">
+                <div *ngFor="let lesson of chapter.lessons" class="p-2">
+                  <a
+                    class="text-gray-900 fw-bolder text-hover-primary d-block fs-6"
+                  >
+                    {{ lesson.title }}
+                  </a>
+                </div>
+              </div>
+            </td>
+
+            <td>
+              <div class="d-flex justify-content-end flex-shrink-0">
+                <a
+                  (click)="goToViewChapter(chapter.id)"
+                  class="btn btn-bg-light btn-color-muted btn-active-color-primary btn-sm px-4 me-2"
+                >
+                  View
+                </a>
+                <a
+                  (click)="delete(chapter.id)"
+                  class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm"
+                >
+                  <span
+                    [inlineSVG]="
+                      './assets/media/icons/duotune/general/gen027.svg'
+                    "
+                    class="svg-icon svg-icon-3"
+                  ></span>
+                </a>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+        <!-- end::Table body -->
+      </table>
+      <!-- end::Table -->
+    </div>
+    <!-- end::Table container -->
+  </div>
+  <!-- begin::Body -->
+</div>
+<ng-template #content let-modal class="card mb-5 mb-xl-10">
+  <div class="modal-header">
+    <h3 class="modal-title">Add a Chapter</h3>
+  </div>
+  <div class="modal-body">
+    <div class="d-flex justify-content-center mb-4">
+      <button
+        type="button"
+        class="btn btn-secondary m-2"
+        (click)="showExistingChapters = true; showForm = false"
+      >
+        Add Existing Chapter
+      </button>
+      <button
+        type="button"
+        class="btn btn-primary m-2"
+        (click)="showForm = true; showExistingChapters = false"
+      >
+        Create Chapter
+      </button>
+    </div>
+
+    <!-- Existing Chapters Selection -->
+    <div *ngIf="showExistingChapters">
+      <div class="card-title mb-4">
+        <h3 class="fw-bolder">Select Existing Chapters:</h3>
+      </div>
+      <div class="form-group">
+        <div class="checkbox-list">
+          <div class="form-check" *ngFor="let chapter of addChapters">
+            <input
+              type="checkbox"
+              class="form-check-input"
+              id="chapter-{{ chapter.id }}"
+              [value]="chapter.title"
+              (change)="onChapterSelect($event)"
+            />
+            <label class="form-check-label" for="chapter-{{ chapter.id }}">
+              {{ chapter.title }}
+            </label>
+          </div>
+        </div>
+        <div class="card-footer d-flex justify-content-end py-6 px-9">
+          <button
+            type="button"
+            class="btn btn-primary m-2"
+            (click)="addExistingChapter()"
+          >
+            Save Changes
+          </button>
+          <button
+            type="button"
+            class="btn btn-secondary m-2"
+            (click)="modal.dismiss('Cross click')"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- New Chapter Form -->
+    <div *ngIf="showForm">
+      <div class="card-title m-0">
+        <h3 class="fw-bolder m-0 p-5">Add a new chapter:</h3>
+      </div>
+      <div id="kt_account_profile_details" class="collapse show modal-xl">
+        <form novalidate class="form" (ngSubmit)="savechapter()">
+          <div class="card-body border-top p-9">
+            <div class="row mb-6">
+              <label class="col-lg-4 col-form-label required fw-bold fs-6"
+                >Title:</label
+              >
+              <div class="col-lg-8 fv-row">
+                <input
+                  type="text"
+                  id="fullname"
+                  name="fullname"
+                  [(ngModel)]="title"
+                  class="form-control form-control-lg form-control-solid mb-3 mb-lg-0"
+                  required
+                />
+              </div>
+            </div>
+            <div class="row mb-6">
+              <label class="col-lg-4 col-form-label required fw-bold fs-6"
+                >Description:</label
+              >
+              <div class="col-lg-8 fv-row">
+                <textarea
+                  name="desc"
+                  id="description"
+                  [(ngModel)]="desc"
+                  class="form-control form-control-lg form-control-solid mb-3 mb-lg-0"
+                ></textarea>
+              </div>
+            </div>
+            <div class="row mb-6">
+              <label class="col-lg-4 col-form-label fw-bold fs-6"
+                ><span class="required">Chapter Number:</span></label
+              >
+              <div class="col-lg-8 fv-row">
+                <input
+                  type="number"
+                  id="chapterNumber"
+                  name="chapterNumber"
+                  [(ngModel)]="cnumber"
+                  class="form-control form-control-lg form-control-solid"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="card-footer d-flex justify-content-end py-6 px-9">
+            <button
+              type="submit"
+              class="btn btn-primary m-2"
+              (click)="modal.close('Save click')"
+            >
+              Save Changes
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary m-2"
+              (click)="modal.dismiss('Cross click')"
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</ng-template>

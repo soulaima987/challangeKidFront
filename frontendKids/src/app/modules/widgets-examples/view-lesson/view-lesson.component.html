@@ -1,0 +1,161 @@
+<style>
+  .lesson-card {
+    display: flex;
+    background-color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+    transition: box-shadow 0.3s ease;
+  }
+
+  .lesson-card:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .lesson-card__image {
+    flex: 0 0 30%;
+    max-width: 30%;
+  }
+
+  .lesson-card__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .lesson-card__content {
+    flex: 1;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .lesson-card__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  .lesson-card__title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #333;
+    margin: 0;
+  }
+
+  .lesson-card__number {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #666;
+    background-color: #f0f0f0;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+  }
+
+  .lesson-card__description {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 1rem;
+  }
+
+  .lesson-card__content-preview {
+    background-color: #f9f9f9;
+    padding: 1rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+  }
+
+  .lesson-card__content-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #444;
+    margin-bottom: 0.5rem;
+  }
+
+  .lesson-card__content-text {
+    font-size: 0.9rem;
+    color: #666;
+  }
+
+  .lesson-card__category-badge {
+    font-size: 0.9rem; /* Increased from 0.8rem */
+    color: #fff;
+    background-color: #3498db;
+    padding: 0.35rem 0.7rem; /* Increased from 0.25rem 0.5rem */
+    border-radius: 20px;
+    display: inline-block; /* Added to ensure proper sizing */
+    margin-bottom: 0.3rem; /* Added to give space between badges if they wrap */
+  }
+
+  .lesson-card__categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem; /* Increased from 0.5rem to give more space between badges */
+    margin-bottom: 1rem;
+  }
+
+  .lesson-card__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+    font-size: 0.9rem;
+    color: #777;
+  }
+
+  .lesson-card__date {
+    font-style: italic;
+  }
+
+  .lesson-card__enrollment {
+    font-weight: 600;
+  }
+</style>
+<div class="lesson-card">
+  <div class="lesson-card__image" *ngIf="myLesson.post?.mediaFileName">
+    <img
+      [src]="backendUrl + '/uploads/images/' + myLesson.post.mediaFileName"
+      alt="Lesson Image"
+      class="lesson-card__img"
+    />
+  </div>
+  <div class="lesson-card__content">
+    <div class="lesson-card__header">
+      <h2 class="lesson-card__title">{{ myLesson.title }}</h2>
+      <span class="lesson-card__number">
+        Lesson {{ myLesson.lessonNumber }}
+      </span>
+    </div>
+    <p class="lesson-card__description">{{ myLesson.description }}</p>
+
+    <!-- Conditional Content Preview Section -->
+    <div *ngIf="myLesson.post" class="lesson-card__content-preview">
+      <h3 class="lesson-card__content-title">Lesson Content:</h3>
+      <p class="lesson-card__content-text">
+        {{ myLesson.post.content | slice : 0 : 150 }}...
+      </p>
+    </div>
+
+    <!-- Conditional Categories Section -->
+    <div
+      *ngIf="myLesson.post?.category?.length > 0"
+      class="lesson-card__categories"
+    >
+      <span
+        *ngFor="let category of myLesson.post.category"
+        class="lesson-card__category-badge"
+      >
+        {{ category.title }}
+      </span>
+    </div>
+
+    <!-- Conditional Footer with Date -->
+    <div class="lesson-card__footer" *ngIf="myLesson.post?.addedDate">
+      <span class="lesson-card__date">
+        Added: {{ myLesson.post.addedDate | date : "mediumDate" }}
+      </span>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,358 @@
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
+
+  .chapter-card {
+    font-family: "Roboto", sans-serif;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .chapter-card__header {
+    margin-bottom: 1.5rem;
+  }
+
+  .chapter-card__number {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #6c757d;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+  }
+
+  .chapter-card__title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #343a40;
+    margin-bottom: 0.75rem;
+  }
+
+  .chapter-card__description {
+    font-size: 1rem;
+    color: #495057;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+
+  .chapter-card__meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    border-top: 1px solid #e9ecef;
+    font-size: 0.95rem;
+    color: #495057;
+  }
+
+  .chapter-card__lessons {
+    font-weight: 500;
+  }
+
+  .chapter-card__lessons-count {
+    font-weight: 700;
+    color: #0077cc;
+  }
+</style>
+
+<div class="chapter-card">
+  <div class="chapter-card__header">
+    <div class="chapter-card__number">
+      Chapter {{ myChapter.chapterNumber }}
+    </div>
+    <h2 class="chapter-card__title">{{ myChapter.title }}</h2>
+  </div>
+
+  <p class="chapter-card__description">{{ myChapter.description }}</p>
+
+  <div class="chapter-card__meta">
+    <div class="chapter-card__lessons">
+      Lessons:
+      <span class="chapter-card__lessons-count">{{
+        myChapter.lessons.length
+      }}</span>
+    </div>
+  </div>
+</div>
+<div class="card mb-5 mb-xl-8">
+  <!-- begin::Header -->
+  <div class="card-header border-0 pt-5">
+    <h3 class="card-title align-items-start flex-column">
+      <span class="card-label fw-bolder fs-3 mb-1">Lessons</span>
+      <span class="text-muted mt-1 fw-bold fs-7">Over 500 lesson</span>
+    </h3>
+    <div
+      class="card-toolbar"
+      data-bs-toggle="tooltip"
+      data-bs-placement="top"
+      data-bs-trigger="hover"
+      title="Click to add a user"
+    >
+      <a class="btn btn-sm btn-light-primary" (click)="open(content)">
+        <span
+          [inlineSVG]="'./assets/media/icons/duotune/arrows/arr075.svg'"
+          class="svg-icon svg-icon-3"
+        ></span>
+        New lesson
+      </a>
+    </div>
+  </div>
+  <!-- end::Header -->
+  <!-- begin::Body -->
+  <div class="card-body py-3">
+    <!-- begin::Table container -->
+    <div class="table-responsive">
+      <!-- begin::Table -->
+      <table
+        #dataTable
+        id="example"
+        class="table table-row-gray-300 align-middle gs-0 gy-4"
+      >
+        <!-- begin::Table head -->
+        <thead>
+          <tr class="fw-bolder text-muted">
+            <th class="w-25px">
+              <div
+                class="form-check form-check-sm form-check-custom form-check-solid"
+              >
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value="1"
+                  data-kt-check="true"
+                  data-kt-check-target=".widget-9-check"
+                />
+              </div>
+            </th>
+            <th class="min-w-150px">Title</th>
+            <th class="min-w-140px">Description</th>
+            <th class="min-w-120px">LessonNumber</th>
+            <th class="min-w-120px">AssignPost</th>
+            <th class="min-w-100px text-end">Actions</th>
+          </tr>
+        </thead>
+        <!-- end::Table head -->
+        <!-- begin::Table body -->
+        <tbody *ngIf="myLessons.length > 0">
+          <tr *ngFor="let lesson of myLessons">
+            <td>
+              <div
+                class="form-check form-check-sm form-check-custom form-check-solid"
+              >
+                <input
+                  class="form-check-input widget-9-check"
+                  type="checkbox"
+                  value="1"
+                />
+              </div>
+            </td>
+            <td>
+              <div class="d-flex align-items-center">
+                <div class="d-flex justify-content-start flex-column">
+                  <a
+                    href="#"
+                    class="text-gray-900 fw-bolder text-hover-primary fs-6"
+                  >
+                    {{ lesson.title }}
+                  </a>
+                </div>
+              </div>
+            </td>
+            <td>
+              <a
+                href="#"
+                class="text-gray-900 fw-bolder text-hover-primary d-block fs-6"
+              >
+                {{ lesson.description }}
+              </a>
+            </td>
+            <td>
+              <a
+                href="#"
+                class="text-gray-900 fw-bolder text-hover-primary d-block fs-6"
+              >
+                {{ lesson.lessonNumber }}
+              </a>
+            </td>
+            <td class="text-end">
+              <div class="d-flex flex-column w-100 me-2" *ngIf="!lesson.post">
+                <div class="d-flex flex-stack mb-2">
+                  <select (change)="onSelectChange($event, lesson.id)">
+                    <option *ngFor="let option of posts" [value]="option.id">
+                      {{ option.id }} - {{ option.title }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="d-flex flex-column w-100 me-2" *ngIf="lesson.post">
+                <div class="d-flex flex-stack mb-2">
+                  {{ lesson.post.title }}
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="d-flex justify-content-end flex-shrink-0">
+                <a
+                  (click)="goToViewLesson(lesson.id)"
+                  class="btn btn-bg-light btn-color-muted btn-active-color-primary btn-sm px-4 me-2"
+                >
+                  View
+                </a>
+                <a
+                  (click)="delete(lesson.id)"
+                  class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm"
+                >
+                  <span
+                    [inlineSVG]="
+                      './assets/media/icons/duotune/general/gen027.svg'
+                    "
+                    class="svg-icon svg-icon-3"
+                  ></span>
+                </a>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+        <!-- end::Table body -->
+      </table>
+      <!-- end::Table -->
+    </div>
+    <!-- end::Table container -->
+  </div>
+  <!-- begin::Body -->
+</div>
+<ng-template #content let-modal class="card mb-5 mb-xl-10">
+  <div class="modal-header">
+    <h3 class="modal-title">Add a Lesson</h3>
+  </div>
+  <div class="modal-body">
+    <div class="d-flex justify-content-center mb-4">
+      <button
+        type="button"
+        class="btn btn-secondary m-2"
+        (click)="showExistingLessons = true; showForm = false"
+      >
+        Add Existing Lesson
+      </button>
+      <button
+        type="button"
+        class="btn btn-primary m-2"
+        (click)="showForm = true; showExistingLessons = false"
+      >
+        Create Lesson
+      </button>
+    </div>
+
+    <!-- Existing Lessons Selection -->
+    <div *ngIf="showExistingLessons">
+      <div class="card-title mb-4">
+        <h3 class="fw-bolder">Select Existing Lessons:</h3>
+      </div>
+      <div class="form-group">
+        <div class="checkbox-list">
+          <div class="form-check" *ngFor="let lesson of addLessons">
+            <input
+              type="checkbox"
+              class="form-check-input"
+              id="lesson-{{ lesson.id }}"
+              [value]="lesson.title"
+              (change)="onLessonSelect($event)"
+            />
+            <label class="form-check-label" for="lesson-{{ lesson.id }}">
+              {{ lesson.title }}
+            </label>
+          </div>
+        </div>
+        <div class="card-footer d-flex justify-content-end py-6 px-9">
+          <button
+            type="button"
+            class="btn btn-primary m-2"
+            (click)="addExistingLesson()"
+          >
+            Save Changes
+          </button>
+          <button
+            type="button"
+            class="btn btn-secondary m-2"
+            (click)="modal.dismiss('Cross click')"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- New Lesson Form -->
+    <div *ngIf="showForm">
+      <div class="card-title m-0">
+        <h3 class="fw-bolder m-0 p-5">Add a new lesson:</h3>
+      </div>
+      <div id="kt_account_profile_details" class="collapse show modal-xl">
+        <form novalidate class="form" (ngSubmit)="savelesson()">
+          <div class="card-body border-top p-9">
+            <div class="row mb-6">
+              <label class="col-lg-4 col-form-label required fw-bold fs-6"
+                >Title:</label
+              >
+              <div class="col-lg-8 fv-row">
+                <input
+                  type="text"
+                  id="title"
+                  name="title"
+                  [(ngModel)]="title"
+                  class="form-control form-control-lg form-control-solid mb-3 mb-lg-0"
+                  required
+                />
+              </div>
+            </div>
+            <div class="row mb-6">
+              <label class="col-lg-4 col-form-label required fw-bold fs-6"
+                >Description:</label
+              >
+              <div class="col-lg-8 fv-row">
+                <textarea
+                  name="description"
+                  id="description"
+                  [(ngModel)]="description"
+                  class="form-control form-control-lg form-control-solid mb-3 mb-lg-0"
+                ></textarea>
+              </div>
+            </div>
+            <div class="row mb-6">
+              <label class="col-lg-4 col-form-label fw-bold fs-6">
+                <span class="required">Lesson Number:</span>
+              </label>
+              <div class="col-lg-8 fv-row">
+                <input
+                  type="number"
+                  id="lessonNumber"
+                  name="lessonNumber"
+                  [(ngModel)]="lnumber"
+                  class="form-control form-control-lg form-control-solid"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="card-footer d-flex justify-content-end py-6 px-9">
+            <button
+              type="submit"
+              class="btn btn-primary m-2"
+              (click)="modal.close('Save click')"
+            >
+              Save Changes
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary m-2"
+              (click)="modal.dismiss('Cross click')"
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</ng-template>

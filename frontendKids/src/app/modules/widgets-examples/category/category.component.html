@@ -1,0 +1,36 @@
+<app-tables-widget13
+  (addCategoryEvent)="open(content)"
+  class="card mb-5 mb-xl-8"
+></app-tables-widget13>
+<ng-template #content let-modal class="card mb-5 mb-xl-10">
+  <div class="collapse show modal-body">
+    <form (submit)="addCategory()">
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label"
+          >Category Title</label
+        >
+        <input
+          type="text"
+          class="form-control"
+          id="exampleInputEmail1"
+          aria-describedby="emailHelp"
+          [(ngModel)]="title"
+          name="title"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label"
+          >Description:</label
+        >
+        <input
+          type="text"
+          class="form-control"
+          id="exampleInputPassword1"
+          [(ngModel)]="desc"
+          name="desc"
+        />
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+</ng-template>

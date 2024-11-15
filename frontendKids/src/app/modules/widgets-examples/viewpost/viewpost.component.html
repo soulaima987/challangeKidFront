@@ -1,0 +1,184 @@
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
+
+  .card {
+    font-family: "Roboto", sans-serif;
+  }
+
+  .challenge-name {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #0077cc;
+    background-color: #e0f2ff;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+  }
+
+  .answer-section {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-radius: 5px;
+  }
+
+  .answer-label {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #495057;
+    margin-bottom: 0.5rem;
+  }
+
+  .card-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #212529;
+  }
+
+  .card-text {
+    font-size: 1.1rem;
+    color: #495057;
+  }
+
+  .category-badge {
+    font-size: 0.9rem;
+    padding: 0.4em 0.8em;
+    border-radius: 20px;
+    background-color: #e0f2ff;
+    color: #0077cc;
+    border: 1px solid #0077cc;
+    transition: all 0.3s ease;
+    display: inline-block;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .category-badge:hover {
+    background-color: #0077cc;
+    color: #ffffff;
+  }
+
+  .approval-badge {
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 0.5em 1em;
+    border-radius: 5px;
+    display: inline-block;
+  }
+
+  .approval-badge.approved {
+    background-color: #28a745;
+    color: #ffffff;
+  }
+
+  .approval-badge.not-approved {
+    background-color: #dc3545;
+    color: #ffffff;
+  }
+
+  .text-muted {
+    font-size: 0.9rem;
+  }
+
+  .answer-section {
+    background-color: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 5px;
+  }
+
+  .answer-label {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 1rem;
+  }
+
+  .post-item {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 1rem;
+  }
+
+  .post-label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #666;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+  }
+
+  .post-content {
+    font-size: 1rem;
+    color: #333;
+    line-height: 1.5;
+  }
+</style>
+
+<div class="card mb-5 mb-xl-8 shadow-sm">
+  <div class="row g-0">
+    <!-- begin::Image (smaller and to the left) -->
+    <div class="col-md-4 d-flex align-items-center p-3">
+      <img
+        [src]="backendUrl + '/uploads/images/' + myPost.mediaFileName"
+        alt="myPost Image"
+        class="img-fluid rounded"
+        style="width: 100%; height: 100%; object-fit: cover"
+      />
+    </div>
+    <!-- end::Image -->
+
+    <!-- begin::Body (content taking full available space) -->
+    <div class="col-md-8">
+      <div class="card-body d-flex flex-column h-100">
+        <!-- Challenge Name -->
+        <h5 *ngIf="myPost.challengeIdId" class="challenge-name mb-3">
+          Challenge: {{ challenge.title }}
+        </h5>
+
+        <div class="answer-section mb-4">
+          <h5 class="answer-label mb-3">Answer:</h5>
+
+          <!-- myPost Title -->
+          <div class="post-item mb-3">
+            <p class="post-label">Post title:</p>
+            <div class="post-content">{{ myPost.title }}</div>
+          </div>
+
+          <!-- myPost Content -->
+          <div class="post-item mb-3">
+            <p class="post-label">Post content:</p>
+            <div class="post-content">{{ myPost.content }}</div>
+          </div>
+        </div>
+
+        <!-- myPost Categories -->
+        <div class="d-flex flex-wrap mb-4">
+          <span *ngFor="let category of myPost.category" class="category-badge">
+            {{ category.title }}
+          </span>
+        </div>
+
+        <!-- Approval Status -->
+        <div class="approval-status mb-4">
+          <span
+            class="approval-badge"
+            [ngClass]="{
+              approved: myPost.approved,
+              'not-approved': !myPost.approved
+            }"
+          >
+            {{ myPost.approved ? "Approved" : "Not Approved" }}
+          </span>
+        </div>
+
+        <!-- Added Date -->
+        <p class="card-text mt-auto mb-0">
+          <small class="text-muted"
+            >Added on: {{ myPost.addedDate | date : "mediumDate" }}</small
+          >
+        </p>
+      </div>
+    </div>
+    <!-- end::Body -->
+  </div>
+</div>

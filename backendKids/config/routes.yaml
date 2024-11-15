@@ -1,0 +1,25 @@
+controllers:
+  resource:
+    path: ../src/Controller/
+    namespace: App\Controller
+  type: attribute
+# config/routes.yaml
+app.swagger_ui:
+  path: /api/doc
+  methods: GET
+  defaults: { _controller: nelmio_api_doc.controller.swagger_ui }
+  # config/routes.yaml
+app.redocly:
+  path: /api/doc/redocly
+  methods: GET
+  defaults: { _controller: nelmio_api_doc.controller.redocly }
+  # config/routes.yaml
+app.swagger:
+  path: /api/doc.json
+  methods: GET
+  defaults: { _controller: nelmio_api_doc.controller.swagger }
+api_login_check:
+  path: /api/login_check
+# config/routes.yaml
+api_refresh_token:
+  path: /api/token/refresh

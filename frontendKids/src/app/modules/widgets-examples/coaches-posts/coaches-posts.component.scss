@@ -1,0 +1,46 @@
+.btn-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px; // Adjust the gap between buttons if needed
+  
+    .btn {
+      flex: 1 1 auto; // Ensure buttons are flexible but don't grow unnecessarily
+      margin-bottom: 8px; // Adjust the bottom margin to space out rows of buttons
+      border-radius: 50px; // Fully round the buttons
+      padding: 8px 16px; // Adjust padding to make buttons smaller
+      font-size: 14px; // Adjust font size to make buttons smaller
+      transition: background-color 0.3s, color 0.3s; // Smooth transition for background and color
+      white-space: nowrap; // Ensure text doesn't wrap inside the button
+  
+      &.btn-primary {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+      }
+  
+      &.btn-outline-primary {
+        background-color: #fff;
+        border: 2px solid ;
+        color: black;
+      }
+  
+      &:hover {
+        background-color: #0056b3; // Change to a darker shade on hover
+        color: #fff; // Ensure text is white on hover
+      }
+    }
+  }
+  
+  .btn {
+    user-select: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  #quill-editor {
+    height: 250px;  // Adjust height as needed
+  }
+  

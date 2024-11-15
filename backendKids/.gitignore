@@ -1,0 +1,11 @@
+
+###> lexik/jwt-authentication-bundle ###
+/config/jwt/*.pem
+###< lexik/jwt-authentication-bundle ###
+# Symfony directories
+.env
+/var/
+/vendor/
+# Composer
+composer.lock
+# Environment configuration

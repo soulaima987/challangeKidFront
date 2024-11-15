@@ -1,0 +1,225 @@
+<div class="card mb-5 mb-xl-8">
+  <!-- begin::Header -->
+  <div class="card-header border-0 pt-5">
+    <h3 class="card-title align-items-start flex-column">
+      <span class="card-label fw-bolder fs-3 mb-1">Posts</span>
+      <span class="text-muted mt-1 fw-bold fs-7">Over 500 posts</span>
+    </h3>
+    <div
+      class="card-toolbar"
+      data-bs-toggle="tooltip"
+      data-bs-placement="top"
+      data-bs-trigger="hover"
+      title="Click to add a user"
+    >
+      <a class="btn btn-sm btn-light-primary" (click)="open(content)">
+        <span
+          [inlineSVG]="'./assets/media/icons/duotune/arrows/arr075.svg'"
+          class="svg-icon svg-icon-3"
+        ></span>
+        New post
+      </a>
+    </div>
+  </div>
+  <!-- end::Header -->
+  <!-- begin::Body -->
+  <div class="card-body py-3">
+    <!-- begin::Table container -->
+    <div class="table-responsive">
+      <!-- begin::Table -->
+      <table
+        #dataTable
+        id="example"
+        class="table table-row-gray-300 align-middle gs-0 gy-4"
+      >
+        <!-- begin::Table head -->
+        <thead>
+          <tr class="fw-bolder text-muted">
+            <th class="w-25px">
+              <div
+                class="form-check form-check-sm form-check-custom form-check-solid"
+              >
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value="1"
+                  data-kt-check="true"
+                  data-kt-check-target=".widget-9-check"
+                />
+              </div>
+            </th>
+            <th class="min-w-150px">Title</th>
+            <th class="min-w-140px">Content</th>
+            <th class="min-w-120px">categories</th>
+            <th class="min-w-120px">user</th>
+            <th class="min-w-100px text-end">Actions</th>
+          </tr>
+        </thead>
+        <!-- end::Table head -->
+        <!-- begin::Table body -->
+        <tbody *ngIf="posts.length > 0">
+          <tr *ngFor="let post of posts">
+            <td>
+              <div
+                class="form-check form-check-sm form-check-custom form-check-solid"
+              >
+                <input
+                  class="form-check-input widget-9-check"
+                  type="checkbox"
+                  value="1"
+                />
+              </div>
+            </td>
+            <td>
+              <div class="d-flex align-items-center">
+                <div class="symbol symbol-45px me-5">
+                  <img src="./assets/media/avatars/300-23.jpg" alt="" />
+                </div>
+                <div class="d-flex justify-content-start flex-column">
+                  <a
+                    href="#"
+                    class="text-gray-900 fw-bolder text-hover-primary fs-6"
+                  >
+                    {{ post.title }}
+                  </a>
+                </div>
+              </div>
+            </td>
+            <td>
+              <a
+                href="#"
+                class="text-gray-900 fw-bolder text-hover-primary d-block fs-6"
+              >
+                <div [innerHTML]="post.content"></div>
+              </a>
+            </td>
+            <td>
+              <div *ngFor="let category of post.category">
+                <span>{{ category.title }}</span>
+              </div>
+            </td>
+            <td>
+              <a
+                href="#"
+                class="text-gray-900 fw-bolder text-hover-primary d-block fs-6"
+              >
+                {{ post.user }}
+              </a>
+            </td>
+            <td>
+              <div class="d-flex justify-content-end flex-shrink-0">
+                <a
+                  (click)="goToViewChallenge(post.id)"
+                  class="btn btn-bg-light btn-color-muted btn-active-color-primary btn-sm px-4 me-2"
+                >
+                  View
+                </a>
+                <a
+                  (click)="delete(post.id)"
+                  class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm"
+                >
+                  <span
+                    [inlineSVG]="
+                      './assets/media/icons/duotune/general/gen027.svg'
+                    "
+                    class="svg-icon svg-icon-3"
+                  ></span>
+                </a>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+        <!-- end::Table body -->
+      </table>
+      <!-- end::Table -->
+    </div>
+    <!-- end::Table container -->
+  </div>
+  <!-- begin::Body -->
+</div>
+<ng-template #content let-modal class="card mb-5 mb-xl-10">
+  <div
+    id="kt_account_profile_details"
+    class="collapse show modal-body modal-xl"
+  >
+    <form [formGroup]="postForm" (ngSubmit)="addPost()" novalidate class="form">
+      <div class="card-body border-top p-9">
+        <div class="row mb-6">
+          <label
+            for="title"
+            class="col-lg-4 col-form-label required fw-bold fs-6"
+            >Title:</label
+          >
+          <div class="col-lg-8 fv-row">
+            <input
+              type="text"
+              id="title"
+              formControlName="title"
+              class="form-control form-control-lg form-control-solid mb-3 mb-lg-0"
+            />
+          </div>
+        </div>
+        <!-- Updated template to remove config binding -->
+        <div class="row mb-6">
+          <label
+            for="postcontent"
+            class="col-lg-4 col-form-label required fw-bold fs-6"
+            >Content:</label
+          >
+          <div class="col-lg-8 fv-row">
+            <input
+              type="text"
+              id="postcontent"
+              formControlName="content"
+              class="form-control form-control-lg form-control-solid mb-3 mb-lg-0"
+            />
+          </div>
+        </div>
+        <div class="row mb-6">
+          <label for="fileadd" class="col-lg-4 col-form-label fw-bold fs-6"
+            >Add a media file (video, picture...):</label
+          >
+          <div class="col-lg-8 fv-row">
+            <input
+              type="file"
+              id="fileadd"
+              (change)="onFileSelected($event)"
+              class="form-control form-control-lg form-control-solid"
+            />
+          </div>
+        </div>
+        <div class="row mb-6">
+          <label class="col-lg-4 col-form-label fw-bold fs-6">Category:</label>
+          <div class="btn-group" role="group" aria-label="Category selection">
+            <ng-container
+              *ngFor="let category of truecategories; let i = index"
+            >
+              <button
+                type="button"
+                class="btn"
+                [ngClass]="{
+                  'btn-primary': category.selected,
+                  'btn-outline-primary': !category.selected
+                }"
+                (click)="onCategoryChange(category)"
+              >
+                {{ category.title }}
+              </button>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-footer d-flex justify-content-end py-6 px-9">
+        <button type="submit" class="btn btn-primary m-2">Save Changes</button>
+        <button
+          type="button"
+          class="btn btn-secondary m-2"
+          (click)="modal.dismiss('Cross click')"
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+</ng-template>

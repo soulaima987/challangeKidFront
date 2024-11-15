@@ -1,0 +1,18 @@
+{# templates/post/new.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	<h1>Create a New Post</h1>
+
+	{{ form_start(form) }}
+	{{ form_row(form.title) }}
+	{{ form_row(form.content) }}
+
+	{# Rendering the photo field with a custom label #}
+	{{ form_row(form.photo, {'label': 'Post Image (optional)'}) }}
+
+	{# Add a submit button #}
+	<button class="btn btn-primary" type="submit">Submit</button>
+	{{ form_end(form) }}
+{% endblock %}
